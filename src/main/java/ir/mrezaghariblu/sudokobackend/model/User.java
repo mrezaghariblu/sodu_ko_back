@@ -7,9 +7,12 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -60,5 +63,21 @@ public class User implements UserDetails {
     public boolean isCredentialsNonExpired() { return true; }
     @Override
     public boolean isEnabled() { return true; }
+
+    // Hint & Currency
+    private int hintBalance = 1;  // شروع با 1 hint رایگان
+    private int coins = 0;        // سکه برای خرید
+
+    // Streak & Daily
+    private int currentStreak = 0;
+    private LocalDate lastPlayedDaily;
+
+    // Achievements
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<UserAchievement> achievements = new ArrayList<>();
+
+    // Settings
+    private boolean autoCheckEnabled = true;
+    private boolean notesEnabled = true;
 
 }
